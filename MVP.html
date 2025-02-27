@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="DOTA 2, турнир, BI CUP, статистика, команды, расписание" />
+  <meta name="description" content="Официальный сайт турнира DOTA 2 BI CUP. Узнайте расписание, статистику игроков и результаты матчей." />
+  <meta name="author" content="" />
+
+  <title>DOTA 2 BI CUP</title>
+
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .mvp-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+            align-items: center;
+            padding: 20px;
+        }
+        @media (max-width: 1200px) {
+            .mvp-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .mvp-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .crown img {
+            width: 200px;
+            height: auto;
+			margin-bottom: -10px;
+        }
+        .card {
+            background: #ffffff;
+            border: 2px solid #dcdcdc;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            height: 500px;
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .player-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .player-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .player-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .stats {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+        }
+    </style>
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+</head>
+
+<body class="sub_page">
+  <div class="hero_area">
+    <!-- header section strats -->
+    <div class="brand_box">
+      <a class="navbar-brand" href="index.html">
+        <span>
+          DOTA 2 BI CUP
+        </span>
+      </a>
+    </div>
+    <!-- end header section -->
+  </div>
+
+  <!-- nav section -->
+  <section class="nav_section">
+    <div class="container">
+      <div class="custom_nav2">
+        <nav class="navbar navbar-expand custom_nav-container ">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex  flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">О турнире <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html">Групповой этап </a>
+                </li>
+				 <li class="nav-item">
+                  <a class="nav-link" href="testimonial.html">Плей-офф</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="fruit.html">Команды </a>
+                </li>
+               
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Расписание</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Статистика игроков</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <!-- end nav section -->
+
+  <!-- MVP section -->
+  <div id="mvp-container" class="mvp-container"></div>
+
+  <script>
+        const groupSheetId = '12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ';
+        const groupApiKey = 'AIzaSyBMVx7zOAhtQwQqHzi5F-9QkyQmFOi1rBI';
+        const sheetName = 'MVP';
+
+        async function fetchMVPData() {
+            const url = `https://sheets.googleapis.com/v4/spreadsheets/${groupSheetId}/values/${sheetName}!A2:E?key=${groupApiKey}`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.values) {
+                    console.error("Ошибка: Данные отсутствуют!");
+                    return;
+                }
+
+                const titles = ["BEST SUPPORT PLAYER", "MVP", "BEST CORE PLAYER"];
+                const container = document.getElementById("mvp-container");
+
+                container.innerHTML = "";
+
+                const players = data.values.slice(0, 3); // Ограничиваем до 3 игроков
+
+                players.forEach((row, index) => {
+                    const playerName = row[0] || "Unknown Player";
+                    const victories = row[1] || "0";
+                    const kda = row[2] || "0.0";
+                    const fantasyPoints = row[3] || "0";
+                    const winRate = row[4] || "0%";
+
+                    const imageUrl = `/images/player${index + 1}.jpg`;
+                    const crownUrl = `/images/crown${index + 1}.png`;
+
+                    // Проверка на случай отсутствия изображений
+                    const playerPhoto = new Image();
+                    playerPhoto.src = imageUrl;
+                    playerPhoto.onerror = () => {
+                        playerPhoto.src = "/images/default-player.jpg"; // Заглушка
+                    };
+
+                    const crownImage = new Image();
+                    crownImage.src = crownUrl;
+                    crownImage.onerror = () => {
+                        crownImage.src = "/images/default-crown.png"; // Заглушка
+                    };
+
+                    const cardHTML = `
+                        <div>
+                            <div class="crown">
+                                <img src="${crownImage.src}" alt="Crown ${index + 1}">
+                            </div>
+                            <div class="card">
+                                <div class="player-title">${titles[index]}</div>
+                                <img src="${playerPhoto.src}" alt="${playerName}" class="player-photo">
+                                <div class="player-name">${playerName}</div>
+                                <div class="stats">
+                                    <p>Victories: ${victories}</p>
+                                    <p>KDA: ${kda}</p>
+                                    <p>Fantasy Points: ${fantasyPoints}</p>
+                                    <p>Win Rate: ${winRate}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    container.innerHTML += cardHTML;
+                });
+
+            } catch (error) {
+                console.error("Ошибка при загрузке данных: ", error);
+            }
+        }
+
+        fetchMVPData();
+    </script>
+
+  <!-- end MVP section -->
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>
+      &copy; <span id="displayYear"></span> All Rights Reserved By
+      <a href="https://yourwebsite.com/">T_razy</a>
+    </p>
+  </section>
+  <!-- footer section -->
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="js/custom.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+
+  <title>DOTA 2 BI CUP</title>
+
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap" rel="stylesheet" />
+  <!-- Custom styles for this template -->
+  <link href="css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="css/responsive.css" rel="stylesheet" />
+
+  <!-- Дополнительные стили -->
+  <style>
+  /* Увеличиваем размер столбцов в 1.6 раза */
+  .team-card {
+    width: 140%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Увеличиваем фотографии игроков */
+  .player-photo {
+    width: 210px;
+    height: 210px;
+    object-fit: cover;
+    margin: 0 5px;
+  }
+
+  /* Жирный шрифт для названия команды */
+  .team-card h4 strong {
+    font-weight: bold;
+  }
+
+  /* Стили для колонок */
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .col-md-6 {
+    width: calc(50% * 1.6); /* Увеличиваем ширину на 1.6 раза */
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
+
+  /* Растягиваем левую колонку влево */
+  #column1 {
+    margin-left: -20%; /* Растягиваем колонку влево */
+  }
+
+  /* Растягиваем правую колонку вправо */
+  #column2 {
+    margin-right: -8%; /* Растягиваем колонку вправо */
+  }
+
+  /* Обеспечиваем, чтобы колонки не перекрывались */
+  .col-md-6 {
+    min-width: 0; /* Ожидаем минимальную ширину */
+  }
+</style>
+
+</head>
+
+<body class="sub_page">
+  <div class="hero_area">
+    <!-- header section strats -->
+    <div class="brand_box">
+      <a class="navbar-brand" href="index.html">
+        <span>
+          DOTA 2 BI CUP
+        </span>
+      </a>
+    </div>
+    <!-- end header section -->
+  </div>
+
+  <!-- nav section -->
+  <section class="nav_section">
+    <div class="container">
+      <div class="custom_nav2">
+        <nav class="navbar navbar-expand custom_nav-container ">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex  flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav  ">
+                <li class="nav-item active">
+                  <a class="nav-link" href="index.html">О турнире <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="about.html">Групповой этап </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="testimonial.html">Плей-офф</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="fruit.html">Команды </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contact.html">Расписание</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="MVP.html">Статистика игроков</a>
+                </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </section>
+  <!-- end nav section -->
+
+  <!-- fruit section -->
+  <section class="fruit_section layout_padding">
+    <div class="container">
+      <div class="heading_container">
+        <hr>
+        <h2>
+          Команды
+        </h2>
+      </div>
+      <!-- Контейнеры для команд -->
+      <div class="row">
+        <div class="col-md-6" id="column1"></div>
+        <div class="col-md-6" id="column2"></div>
+      </div>
+    </div>
+  </section>
+  <!-- end fruit section -->
+
+  <!-- footer section -->
+  <section class="container-fluid footer_section">
+    <p>
+      &copy; <span id="displayYear"></span> All Rights Reserved By
+      <a href="https://html.design/">T_razy</a>
+    </p>
+  </section>
+  <!-- footer section -->
+
+  <script>
+    async function loadTeams() {
+      const sheetId = "12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ";
+      const sheetName = "405937540";
+      const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${sheetName}`;
+
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        const json = JSON.parse(text.substring(47).slice(0, -2));
+
+        const teams = [];
+        json.table.rows.forEach((row, index) => {
+          if (index === 0) return; // Пропускаем заголовок
+
+          const teamData = {
+            number: row.c[0]?.v || `Команда ${index}`,
+            name: row.c[1]?.v || "Без названия",
+            players: [
+              row.c[2]?.v, // Игрок 1 (C)
+              row.c[3]?.v, // Игрок 2 (D)
+              row.c[4]?.v, // Игрок 3 (E)
+              row.c[5]?.v, // Игрок 4 (F)
+              row.c[6]?.v  // Игрок 5 (G)
+            ].filter(player => player) // Убираем пустые значения
+          };
+
+          teams.push(teamData);
+        });
+
+        displayTeams(teams);
+      } catch (error) {
+        console.error("Ошибка:", error);
+      }
+    }
+
+    function displayTeams(teams) {
+      const column1 = document.getElementById("column1");
+      const column2 = document.getElementById("column2");
+
+      teams.forEach((team, index) => {
+        const teamDiv = document.createElement("div");
+        teamDiv.className = "team-card mb-4 p-3 border rounded";
+
+        teamDiv.innerHTML = `
+          <h4 class="text-center mb-3"><strong>${team.name}</strong></h4>
+          <div class="d-flex justify-content-around">
+            ${team.players.map(player => `
+              <div class="player text-center">
+                <img src="images/players/${encodeURIComponent(player.trim())}.jpg" 
+                     onerror="this.src='images/players/default.jpg'" 
+                     class="img-thumbnail player-photo" 
+                     alt="${player}">
+                <div class="mt-2 small">${player}</div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+
+        (index % 2 === 0 ? column1 : column2).appendChild(teamDiv);
+      });
+    }
+
+    window.onload = loadTeams;
+  </script>
+
+  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="js/custom.js"></script>
+</body>
+
+</html>
