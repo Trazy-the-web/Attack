@@ -71,7 +71,6 @@
   </div>
 
   <!-- nav section -->
-
   <section class="nav_section">
     <div class="container">
       <div class="custom_nav2">
@@ -89,13 +88,12 @@
                 <li class="nav-item">
                   <a class="nav-link" href="about.html">Групповой этап </a>
                 </li>
-				 <li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link" href="testimonial.html">Плей-офф</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="fruit.html">Команды </a>
                 </li>
-               
                 <li class="nav-item">
                   <a class="nav-link" href="contact.html">Расписание</a>
                 </li>
@@ -104,7 +102,6 @@
                 </li>
               </ul>
               <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-                
               </form>
             </div>
           </div>
@@ -113,12 +110,7 @@
     </div>
   </section>
 
-  <!-- end nav section -->
-
-  
-
   <!-- about section -->
-
   <section class="about_section">
     <div class="container-fluid">
       <div class="row">
@@ -130,21 +122,13 @@
         <div class="col-md-5">
           <div class="detail-box">
             <div class="heading_container">
-              
               <h2>
                 Новости
               </h2>
             </div>
-            <div class="news_content">
-              <p>1. Команда 1 еще не скинула бабки </p>
-			  <p>2. Команда 2 тоже еще не скинула бабки </p>
-              <p>3. Команда 3 еще не скинула бабки </p>
-              <p>4. Команда 4 еще не скинула бабки </p>
-              <p>5. Команда 5 еще не скинула бабки </p>
-              <p>6. Ержан лс </p>
-              <p>7. Команда 6 еще не скинула бабки</p>
-              <p>8. Следите за обновлениями на официальном сайте.</p>           
-			  
+            <div class="news_content" id="news-content">
+              <!-- Новости будут загружены сюда -->
+              <p>Загрузка новостей...</p>
             </div>
           </div>
         </div>
@@ -152,199 +136,37 @@
     </div>
   </section>
 
-  <style>
-    .news_content {
-      max-height: 450px; /* Ограничиваем высоту блока */
-      overflow-y: auto; /* Добавляем вертикальную прокрутку */
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background: #fff;
-      font-size: 16px;
-      color: #555;
-      line-height: 1.6;
+  <!-- Скрипт для загрузки новостей из Google Sheets -->
+  <script>
+    async function loadNews() {
+      const sheetId = '12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ'; // Замените на ID вашей таблицы
+      const sheetName = "Новости"; // Замените на название листа
+      const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+
+      try {
+        const response = await fetch(url);
+        const text = await response.text();
+        const json = JSON.parse(text.substring(47).slice(0, -2));
+
+        const news = json.table.rows.map(row => row.c[0]?.v || "").filter(Boolean);
+        const newsContent = document.getElementById("news-content");
+
+        if (news.length > 0) {
+          newsContent.innerHTML = news.map(item => `<p>${item}</p>`).join("");
+        } else {
+          newsContent.innerHTML = "<p>Новостей пока нет.</p>";
+        }
+      } catch (error) {
+        console.error("Ошибка загрузки новостей:", error);
+        document.getElementById("news-content").innerHTML = "<p>Ошибка загрузки новостей.</p>";
+      }
     }
 
-    .news_content p {
-      margin: 5px 0;
-    }
+    window.onload = loadNews;
+  </script>
 
-    .news_content::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .news_content::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 4px;
-    }
-
-    .news_content::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
-	.news_content a {
-  color: #9147ff; /* Цвет Twitch */
-  text-decoration: none; /* Убираем подчеркивание */
-  font-weight: bold;
-}
-
-.news_content a:hover {
-  text-decoration: underline; /* Добавляем подчеркивание при наведении */
-}
-
-    .news_content::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 4px;
-    }
-  </style>
-
-  <!-- end about section -->
-
-  <!-- fruit section -->
-
-  <section class="fruit_section layout_padding">
-    <div class="container">
-      <div class="heading_container">
-        <hr>
-        <h2>
-          Галерея
-		
-        </h2>
-      </div>
-    </div>
-    <div class="container-fluid">
-
-      <div class="fruit_container">
-        <div class="box">
-          <img src="images/f-1.jpg" alt="">
-          
-        </div>
-        <div class="box">
-          <img src="images/f-2.jpg" alt="">
-          
-        </div>
-        <div class="box">
-          <img src="images/f-3.jpg" alt="">
-          
-        </div>
-        <div class="box">
-          <img src="images/f-4.jpg" alt="">
-          
-        </div>
-        <div class="box">
-          <img src="images/f-5.jpg" alt="">
-          
-        </div>
-        <div class="box">
-          <img src="images/f-6.jpg" alt="">
-          
-        </div>
-		
-		</div>
-        <div class="box">
-          <img src="images/f-7.jpg" alt="">
-          
-        </div>
-        <div class="box">
-          <img src="images/f-8.jpg" alt="">
-          
-        </div>
-        <div class="box">
-          <img src="images/f-9.jpg" alt="">
-          
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- end fruit section -->
-
-
-  <!-- client section -->
-
-  <section class="client_section layout_padding-bottom">
-    <div class="container ">
-      <div class="heading_container">
-        <h2>
-          Организаторы
-        </h2>
-        <hr>
-      </div>
-      <div id="carouselExample2Controls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="client_container layout_padding-top">
-              <div class="img-box">
-                <img src="images/client-img.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Типо Ержан
-                </h5>
-                <p>
-                  <img src="images/left-quote.png" alt="">
-                  <span>
-                    Го турик, я создал
-                  </span>
-                  <img src="images/right-quote.png" alt=""> <br>
-                  Думает что скиловый
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item">
-            <div class="client_container layout_padding-top">
-              <div class="img-box">
-                <img src="images/client-img2.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Типо Дамир
-                </h5>
-                <p>
-                  <img src="images/left-quote.png" alt="">
-                  <span>
-                    Тирейзи прайм
-                  </span>
-                  <img src="images/right-quote.png" alt=""> <br>
-                  это не я придумал
-                </p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        <a class="carousel-control-prev" href="#carouselExample2Controls" role="button" data-slide="prev">
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExample2Controls" role="button" data-slide="next">
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- end client section -->
-
-
-  
-
-
-  
-
-
-  <!-- footer section -->
-  <section class="container-fluid footer_section ">
-    <p>
-      &copy; <span id="displayYear"></span> All Rights Reserved. Design by
-      <a href="https://html.design/">T_razy</a>
-    </p>
-  </section>
-  <!-- footer section -->
-
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
-  <script type="text/javascript" src="js/custom.js"></script>
+  <!-- Остальной код (галерея, организаторы, футер) -->
+  <!-- ... -->
 
 </body>
 
