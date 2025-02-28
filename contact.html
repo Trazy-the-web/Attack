@@ -42,7 +42,6 @@
   </div>
 
   <!-- nav section -->
-
   <section class="nav_section">
     <div class="container">
       <div class="custom_nav2">
@@ -60,13 +59,12 @@
                 <li class="nav-item">
                   <a class="nav-link" href="about.html">Групповой этап </a>
                 </li>
-				 <li class="nav-item">
+                <li class="nav-item">
                   <a class="nav-link" href="testimonial.html">Плей-офф</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="fruit.html">Команды </a>
                 </li>
-               
                 <li class="nav-item">
                   <a class="nav-link" href="contact.html">Расписание</a>
                 </li>
@@ -75,7 +73,7 @@
                 </li>
               </ul>
               <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-                
+                <!-- Форма поиска, если нужно -->
               </form>
             </div>
           </div>
@@ -84,11 +82,25 @@
     </div>
   </section>
 
- 
-
-
-  
-
+  <!-- Таблицы с результатами -->
+  <section class="results_section">
+    <div class="container">
+      <h2>Результаты игр</h2>
+      <div class="table-container">
+        <div class="table-row">
+          <div id="table1" class="table"></div>
+          <div id="table2" class="table"></div>
+        </div>
+        <div class="table-row">
+          <div id="table3" class="table"></div>
+          <div id="table4" class="table"></div>
+        </div>
+        <div class="table-row">
+          <div id="table5" class="table"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- footer section -->
   <section class="container-fluid footer_section">
@@ -99,11 +111,38 @@
   </section>
   <!-- footer section -->
 
-
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <script type="text/javascript" src="js/custom.js"></script>
 
+  <!-- Скрипт для загрузки данных из Google Sheets -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const groupSheetId = '12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ';
+        const groupApiKey = 'AIzaSyBMVx7zOAhtQwQqHzi5F-9QkyQmFOi1rBI';
+      const ranges = ['A2:C5', 'E2:G5', 'I2:K5', 'M2:O5', 'Q2:S5'];
+
+      ranges.forEach((range, index) => {
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
+
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const table = document.getElementById(`table${index + 1}`);
+            const rows = data.values;
+            let html = '<table><tr><th>Команда 1</th><th>Счет</th><th>Команда 2</th></tr>';
+
+            rows.forEach(row => {
+              html += `<tr><td>${row[0]}</td><td>${row[2]}</td><td>${row[1]}</td></tr>`;
+            });
+
+            html += '</table>';
+            table.innerHTML = html;
+          })
+          .catch(error => console.error('Ошибка загрузки данных:', error));
+      });
+    });
+  </script>
 </body>
 
 </html>
