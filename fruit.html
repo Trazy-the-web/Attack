@@ -12,7 +12,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>DOTA 2 ERZHAN CUP</title>
+  <title>DOTA 2 BI CUP</title>
 
   <!-- slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
@@ -74,6 +74,18 @@
   /* Обеспечиваем, чтобы колонки не перекрывались */
   .col-md-6 {
     min-width: 0; /* Ожидаем минимальную ширину */
+	
+  }
+  .tooltip-box {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1000;
   }
 </style>
 
@@ -161,70 +173,96 @@
   <!-- footer section -->
 
   <script>
-    async function loadTeams() {
-      const sheetId = "12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ";
-      const sheetName = "405937540";
-      const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${sheetName}`;
+  async function loadTeams() {
+    const sheetId = "12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ";
+    const sheetName = "405937540";
+    const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&gid=${sheetName}`;
 
-      try {
-        const response = await fetch(url);
-        const text = await response.text();
-        const json = JSON.parse(text.substring(47).slice(0, -2));
+    try {
+      const response = await fetch(url);
+      const text = await response.text();
+      const json = JSON.parse(text.substring(47).slice(0, -2));
 
-        const teams = [];
-        json.table.rows.forEach((row, index) => {
-          if (index === 0) return; // Пропускаем заголовок
+      const teams = [];
+      json.table.rows.forEach((row, index) => {
+        if (index === 0) return; // Пропускаем заголовок
 
-          const teamData = {
-            number: row.c[0]?.v || `Команда ${index}`,
-            name: row.c[1]?.v || "Без названия",
-            players: [
-              row.c[2]?.v, // Игрок 1 (C)
-              row.c[3]?.v, // Игрок 2 (D)
-              row.c[4]?.v, // Игрок 3 (E)
-              row.c[5]?.v, // Игрок 4 (F)
-              row.c[6]?.v  // Игрок 5 (G)
-            ].filter(player => player) // Убираем пустые значения
-          };
+        const teamData = {
+          number: row.c[0]?.v || `Команда ${index}`,
+          name: row.c[1]?.v || "Без названия",
+          players: [
+            { name: row.c[2]?.v, info: row.c[7]?.v }, // Игрок 1 (C, H)
+            { name: row.c[3]?.v, info: row.c[8]?.v }, // Игрок 2 (D, I)
+            { name: row.c[4]?.v, info: row.c[9]?.v }, // Игрок 3 (E, J)
+            { name: row.c[5]?.v, info: row.c[10]?.v }, // Игрок 4 (F, K)
+            { name: row.c[6]?.v, info: row.c[11]?.v }  // Игрок 5 (G, L)
+          ].filter(player => player.name) // Убираем пустые значения
+        };
 
-          teams.push(teamData);
-        });
-
-        displayTeams(teams);
-      } catch (error) {
-        console.error("Ошибка:", error);
-      }
-    }
-
-    function displayTeams(teams) {
-      const column1 = document.getElementById("column1");
-      const column2 = document.getElementById("column2");
-
-      teams.forEach((team, index) => {
-        const teamDiv = document.createElement("div");
-        teamDiv.className = "team-card mb-4 p-3 border rounded";
-
-        teamDiv.innerHTML = `
-          <h4 class="text-center mb-3"><strong>${team.name}</strong></h4>
-          <div class="d-flex justify-content-around">
-            ${team.players.map(player => `
-              <div class="player text-center">
-                <img src="images/players/${encodeURIComponent(player.trim())}.jpg" 
-                     onerror="this.src='images/players/default.jpg'" 
-                     class="img-thumbnail player-photo" 
-                     alt="${player}">
-                <div class="mt-2 small">${player}</div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-
-        (index % 2 === 0 ? column1 : column2).appendChild(teamDiv);
+        teams.push(teamData);
       });
-    }
 
-    window.onload = loadTeams;
-  </script>
+      displayTeams(teams);
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
+  }
+
+  function displayTeams(teams) {
+    const column1 = document.getElementById("column1");
+    const column2 = document.getElementById("column2");
+
+    teams.forEach((team, index) => {
+      const teamDiv = document.createElement("div");
+      teamDiv.className = "team-card mb-4 p-3 border rounded";
+
+      teamDiv.innerHTML = `
+        <h4 class="text-center mb-3"><strong>${team.name}</strong></h4>
+        <div class="d-flex justify-content-around">
+          ${team.players.map(player => `
+            <div class="player text-center">
+              <img src="images/players/${encodeURIComponent(player.name.trim())}.jpg" 
+                   onerror="this.src='images/players/default.jpg'" 
+                   class="img-thumbnail player-photo" 
+                   alt="${player.name}">
+              <div class="mt-2 small player-name" data-info="${player.info || 'Нет информации'}">${player.name}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      (index % 2 === 0 ? column1 : column2).appendChild(teamDiv);
+    });
+
+    attachTooltips();
+  }
+
+  function attachTooltips() {
+    document.querySelectorAll(".player-name").forEach(player => {
+      player.addEventListener("mouseenter", function () {
+        const tooltip = document.createElement("div");
+        tooltip.className = "tooltip-box";
+        tooltip.innerText = this.dataset.info;
+        document.body.appendChild(tooltip);
+        
+        const rect = this.getBoundingClientRect();
+        tooltip.style.left = `${rect.left + window.scrollX}px`;
+        tooltip.style.top = `${rect.top + window.scrollY - 30}px`;
+
+        this.tooltip = tooltip;
+      });
+
+      player.addEventListener("mouseleave", function () {
+        if (this.tooltip) {
+          document.body.removeChild(this.tooltip);
+          this.tooltip = null;
+        }
+      });
+    });
+  }
+
+  window.onload = loadTeams;
+</script>
 
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
