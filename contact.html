@@ -2,79 +2,48 @@
 <html>
 
 <head>
-  <!-- Basic -->
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="author" content="" />
-
   <title>DOTA 2 ERZHAN CUP</title>
 
-  <!-- slider stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.3/assets/owl.carousel.min.css" />
-
-  <!-- bootstrap core css -->
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-
-  <!-- fonts style -->
   <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan|Dosis:400,600,700|Poppins:400,600,700&display=swap" rel="stylesheet" />
-  <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 </head>
 
-<body class="sub_page">
+<body class="sub_page custom-results">
   <div class="hero_area">
-    <!-- header section strats -->
     <div class="brand_box">
       <a class="navbar-brand" href="index.html">
-        <span>
-          DOTA 2 ERZHAN CUP
-        </span>
+        <span>DOTA 2 ERZHAN CUP</span>
       </a>
     </div>
-    <!-- end header section -->
   </div>
 
-  <!-- nav section -->
   <section class="nav_section">
     <div class="container">
       <div class="custom_nav2">
-        <nav class="navbar navbar-expand custom_nav-container ">
+        <nav class="navbar navbar-expand custom_nav-container">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="d-flex  flex-column flex-lg-row align-items-center">
-              <ul class="navbar-nav  ">
-                <li class="nav-item active">
-                  <a class="nav-link" href="index.html">О турнире <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="about.html">Групповой этап </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="testimonial.html">Плей-офф</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="fruit.html">Команды </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Расписание</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="MVP.html">Статистика игроков</a>
-                </li>
+            <div class="d-flex flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item active"><a class="nav-link" href="index.html">О турнире</a></li>
+                <li class="nav-item"><a class="nav-link" href="about.html">Групповой этап</a></li>
+                <li class="nav-item"><a class="nav-link" href="testimonial.html">Плей-офф</a></li>
+                <li class="nav-item"><a class="nav-link" href="fruit.html">Команды</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact.html">Расписание</a></li>
+                <li class="nav-item"><a class="nav-link" href="MVP.html">Статистика игроков</a></li>
               </ul>
-              <form class="form-inline my-2 my-lg-0 ml-0 ml-lg-4 mb-3 mb-lg-0">
-                <!-- Форма поиска, если нужно -->
-              </form>
             </div>
           </div>
         </nav>
@@ -82,7 +51,6 @@
     </div>
   </section>
 
-  <!-- Таблицы с результатами -->
   <section class="results_section">
     <div class="container">
       <h2>Результаты игр</h2>
@@ -102,76 +70,56 @@
     </div>
   </section>
 
-  <!-- footer section -->
   <section class="container-fluid footer_section">
-    <p>
-      &copy; <span id="displayYear"></span> All Rights Reserved By
-      <a href="https://html.design/">T_razy</a>
-    </p>
+    <p>&copy; <span id="displayYear"></span> All Rights Reserved By <a href="https://html.design/">T_razy</a></p>
   </section>
-  <!-- footer section -->
 
   <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.js"></script>
   <script type="text/javascript" src="js/custom.js"></script>
 
-  <!-- Скрипт для загрузки данных из Google Sheets -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-  const groupSheetId = '12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ'; // ID таблицы
-  const groupApiKey = 'AIzaSyBMVx7zOAhtQwQqHzi5F-9QkyQmFOi1rBI'; // API ключ
-  const ranges = ['A1:C4', 'E1:G4', 'I1:K4', 'M1:O4', 'Q1:S4'].map(range => `Результаты!${range}`);
+      const groupSheetId = '12bJExUSCmVYkPB8zC4IFHeSky_GnYeof04j-h9JVcXQ';
+      const groupApiKey = 'AIzaSyBMVx7zOAhtQwQqHzi5F-9QkyQmFOi1rBI';
+      const ranges = ['A1:C4', 'E1:G4', 'I1:K4', 'M1:O4', 'Q1:S4'].map(range => `Результаты!${range}`);
 
-  ranges.forEach((range, index) => {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${groupSheetId}/values/${encodeURIComponent(range)}?key=${groupApiKey}`;
+      ranges.forEach((range, index) => {
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${groupSheetId}/values/${encodeURIComponent(range)}?key=${groupApiKey}`;
 
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`Ошибка HTTP: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        const table = document.getElementById(`table${index + 1}`);
-        if (!table) {
-          console.warn(`Элемент table${index + 1} не найден.`);
-          return;
-        }
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const table = document.getElementById(`table${index + 1}`);
+            if (!table) return;
+            
+            if (!data.values || data.values.length < 4) {
+              table.innerHTML = '<p>Данные отсутствуют или недостаточно строк.</p>';
+              return;
+            }
 
-        if (!data.values || data.values.length < 4) {
-          table.innerHTML = '<p>Данные отсутствуют или недостаточно строк.</p>';
-          return;
-        }
-
-        let html = '<table border="1">';
-        
-        // Первая строка - номер тура (объединенная)
-        html += `<tr><th colspan="3">${data.values[0][0] || 'Тур неизвестен'}</th></tr>`;
-        
-        // Следующие 3 строки - игры
-        for (let i = 1; i <= 3; i++) {
-          const row = data.values[i] || [];
-          html += `<tr>
-                     <td>${row[0] || '-'}</td>
-                     <td>${row[1] || '-'}</td>
-                     <td>${row[2] || '-'}</td>
-                   </tr>`;
-        }
-
-        html += '</table>';
-        table.innerHTML = html;
-      })
-      .catch(error => {
-        console.error('Ошибка загрузки данных:', error);
-        const table = document.getElementById(`table${index + 1}`);
-        if (table) {
-          table.innerHTML = `<p style="color: red;">Ошибка загрузки данных: ${error.message}</p>`;
-        }
+            let html = '<table>';
+            html += `<tr><th colspan="3">${data.values[0][0] || 'Тур неизвестен'}</th></tr>`;
+            for (let i = 1; i <= 3; i++) {
+              const row = data.values[i] || [];
+              html += `<tr>
+                         <td>${row[0] || '-'}</td>
+                         <td>${row[1] || '-'}</td>
+                         <td>${row[2] || '-'}</td>
+                       </tr>`;
+            }
+            html += '</table>';
+            table.innerHTML = html;
+          })
+          .catch(error => {
+            console.error('Ошибка загрузки данных:', error);
+            const table = document.getElementById(`table${index + 1}`);
+            if (table) {
+              table.innerHTML = `<p style="color: red;">Ошибка загрузки данных: ${error.message}</p>`;
+            }
+          });
       });
-  });
-});
-
+    });
   </script>
 </body>
 
